@@ -232,15 +232,24 @@
         var that = this;
         that.animation=anmiaton
         that.$apply()
+
         setTimeout(function() {
          that.animation=''
           that.$apply()
         }, 1000)
-        that.closeCountDown()
-        setTimeout(function(){
-          that.button=true
-          that.$apply()
-        },800)
+
+        if(!this.data.state){
+          //用户在手机屏幕向上的时候才能停止
+          setTimeout(function(){
+            that.button=true
+            that.$apply()
+          },800)
+          that.closeCountDown()
+        }else{
+          //用户在手机屏幕向下的时候操作的，不干嘛！继续计时
+          this.toast("这样仰着头脖子不疼吗！！！","none",2000)
+        }
+
       },
       toggle1(e) {
         //按再来一次
@@ -261,11 +270,14 @@
          that.animation=''
           that.$apply()
         }, 1000)
+
         wx.startAccelerometer()
+
         setTimeout(function(){
           that.button=false
           that.$apply()
         },800)
+
       }
     }
 
@@ -310,11 +322,10 @@
       wx.onAccelerometerChange(function (res) {
        if (res.z >= 0) {
          //手机翻过去
-         if (that.data.state == false) {
+         if (!that.data.state) {
            //手机翻过去的那一瞬间
            that.state=true
            that.msg_text="开始专注了..."
-           that.$apply()
            that.data.begain_timestamp = (new Date()).valueOf();
            //得到这一次开始的时间信息
            date=new Date()
@@ -322,7 +333,7 @@
            console.log("begain")
 
            if(that.data.stop_timestamp!=0){
-            //表示又重新将手机屏幕向下了，添加暂停时间的提示
+            //表示暂停一段时间后又开始了，添加一个暂停周期的提示
             let t=that.data.begain_timestamp-that.data.stop_timestamp
             date=new Date(t)
             let mt=date.getMinutes()
@@ -356,7 +367,6 @@
          //由于时间戳之间的运算没有考虑时差，date.getHours()的值总提前8个小时
          if(h>=8){h-=8}else{h+=16}
          that.data.hou=h
-         //console.log(that.data.timestamp1+":"+that.data.timestamp+":"+new Date(10800000).getHours())
 
          //持续更新界面的时间 
          let a=""
@@ -378,37 +388,22 @@
          that.msg=a+":"+b+":"+c
          that.$apply()
 
-       } else if (res.z < 0 && that.data.state == true) {
+       } else if (res.z < 0 && that.data.state ) {
          //手机翻过来的这一刻
          console.log("suspend---");
 
-         that.suspend();
+        that.suspend();
 
          that.state=false
          that.msg_text="停止专注了..."
-         that.$apply()
          that.data.pause++
+         that.$apply()
 
-         //得到这一阶段结束的时间信息
-         date=new Date()
-         that.data.pauseMsg = that.data.pauseMsg + date.getHours() + ":" +date.getMinutes() + ":" + date.getSeconds() + "&";
-
-         //更新时间统计数据
-         that.data.stop_timestamp = (new Date()).valueOf();
-         that.data.timestamp = that.data.stop_timestamp - that.data.begain_timestamp;
-         that.data.timestamp1 = that.data.timestamp1 + that.data.timestamp;
-         date=new Date(that.data.timestamp1)
-         that.data.sec = date.getSeconds();
-         that.data.min = date.getMinutes();
-         let h = date.getHours();
-         //由于时间戳之间的运算没有考虑时差，date.getHours()的值总提前8个小时
-         if(h>=8){h-=8}else{h+=16}
-         that.data.hou=h
+         that.data.timestamp1 += that.data.timestamp
 
          if(that.data.begain_timestamp!=0){
-          //表示手机屏幕已从向下变为向上，添加一个计时周期时间的提示
-            let t=that.data.stop_timestamp-that.data.begain_timestamp
-            date=new Date(t)
+          //表示开始一段时间后又暂停了，添加一个专注周期时间的提示
+            date=new Date(that.data.timestamp)
             let h = date.getHours();
              //由于时间戳之间的运算没有考虑时差，date.getHours()的值总提前8个小时
              if(h>=8){h-=8}else{h+=16}
@@ -419,7 +414,6 @@
               let front=that.data.pauseFront
               front.push(ti)
               that.pauseFront=front
-              that.$apply()
              }else{
               let mt=date.getMinutes()
               let st=date.getSeconds()
@@ -432,33 +426,13 @@
               let front=that.data.pauseFront
               front.push(ti)
               that.pauseFront=front
-              that.$apply()
              }
-           }
-
-         //持续更新界面的时间
-         var a=""
-         var b=""
-         var c=""
-         //以下三个for循环意味构造形如"00:00:00"的信息提示
-         if(that.data.hou==0) {a="00"}
-         else if(that.data.hou>0 && that.data.hou<10){a="0"+that.data.hou}
-         else{a=that.data.hou}
-
-         if(that.data.min==0) {b="00"}
-         else if(that.data.min>0 && that.data.min<10){b="0"+that.data.min}
-         else{b=that.data.min}
-
-         if(that.data.sec==0) {c="00"}
-         else if(that.data.sec>0 && that.data.sec<10){c="0"+that.data.sec}
-         else{c=that.data.sec}
-
-         that.msg=a+":"+b+":"+c
-         that.$apply()
+             that.$apply()
+          }
 
          that.data.times=parseInt(that.data.hou*3600)+parseInt(that.data.min*60)+parseInt(that.data.sec)
 
-         //暂停时该次计时大于60秒才发送，否则不发
+         //暂停时该次计时大于60秒才发送服务器保存一下上个阶段的记录，否则不发
          if(that.data.times >= that.data.times1+60){
           that.data.times1=that.data.times
           that.sendMsg()
@@ -492,7 +466,15 @@
 
     onUnload(){
       //生命周期函数--监听页面卸载
-      this.closeCountDown();
+
+      //极端特殊的情况，如果在专注途中系统被强制退出。也需要向服务器发个信息
+      if(this.data.state){
+        this.suspend()
+        this.data.timeSituation=true
+        this.data.times=parseInt(this.data.hou*3600)+parseInt(this.data.min*60)+parseInt(this.data.sec)
+        this.closeCountDown();
+      }
+
     }
 
     toast(title,icon,duration){
@@ -509,14 +491,13 @@
       console.log("time:  "+res)
     }
 
+
     closeCountDown(){
       //停止计时，刷新状态
-      wx.stopAccelerometer();
-      console.log("stop")
-      console.log(this.data.dates)
 
-      //得到这一次结束的时间信息
-      //this.data.pauseMsg = this.data.pauseMsg + new Date().getHours() + ":" + new Date().getMinutes();
+      wx.stopAccelerometer();
+
+      console.log("stop")
 
       this.data.pause--
       if(this.data.pause<0)  this.data.pause=0
@@ -527,15 +508,45 @@
         this.$apply()
         return;
       }else{
-        this.data.timeSituation=true
-        this.data.times=parseInt(this.data.hou*3600)+parseInt(this.data.min*60)+parseInt(this.data.sec)
+        //在屏幕向下的情况下停止监听后，总是会自动的开始，干脆禁止在屏幕向下的情况下停止专注
+        /*if(this.data.state){
+          //考虑到总有用户喜欢在屏幕向下的时候按下“停止专注”键（意味着还未暂停），这里加一个暂停时的逻辑
+          this.suspend();
+           this.state=false
+           console.log("whenTimeingPaused---");
+           this.msg_text="停止专注了..."
+           this.$apply()
+
+           this.data.timeSituation=true
+           this.sendMsg();
+           return 
+        }*/
+
+        //这里只考虑按下停止键时手机已经翻过来了，执行了res.z < 0 && that.data.state的代码，否则会出错
         //针对用户按下停止键是必须先暂停时会发送两次一样的信息给后台，这里就只发一次，因为暂停时已经发送了一次
-        console.log(this.data.times1+"---"+this.data.times)
         if(this.data.times1!=this.data.times){
+          this.data.timeSituation=true
           this.sendMsg();
+        }else{
+          //由于没有发送消息了，自然也就没有清理上一次变量了，这里清理一下
+          this.data.ends=""
+          this.data.times=0
+          this.data.times1=0
+          this.data.stop_timestamp=0;
+          this.data.timestamp=0;
+          this.data.timestamp1 = 0;
+          this.data.begain_timestamp=0;
+          this.data.sec=0;
+          this.data.min=0;
+          this.data.hou=0;
+          this.data.pause=0;
+          this.data.pauseMsg=""
+          this.data.timeId=0
+          this.data.timeSituation=false
         }
+
       }
-      console.log("end!!!")
+
   }
 
 

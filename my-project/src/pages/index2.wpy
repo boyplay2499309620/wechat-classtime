@@ -162,7 +162,7 @@
      StatusBar:"",
      CustomBar:"",
      userInfo: {
-        nickName: '请授权...',
+        nickName: '请稍等...',
       },
      canIUse:true,
      flag1:0,//在addnickName()中控制setTimeOut的等待时间
