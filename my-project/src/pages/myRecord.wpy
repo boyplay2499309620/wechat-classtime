@@ -254,9 +254,9 @@
                 if(times<60){
                   msg[j][5] = times + "秒"
                 }else if(times<3600){
-                  msg[j][5] = times%60 + "分钟"
+                  msg[j][5] = Math.floor(times/60) + "分钟"
                 }else{
-                  msg[j][5] = times%3600 + "小时"
+                  msg[j][5] = Math.floor(times/3600) + "小时"
                 }
 
                 msg[j][6] = pause;

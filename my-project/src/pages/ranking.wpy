@@ -177,9 +177,9 @@ page {
           </text>
         </view>
       </view>
-      <view class="action">
-        <text class="icon-likefill lg text-red"></text>
-        <view class="cu-tag round bg-grey sm like-number">5</view>
+      <view class="action" @tap="clickLove" data-index="{{index}}">
+        <text class="icon-likefill lg text-{{!item.isLove?'grey':'red'}}"></text>
+        <view class="cu-tag round bg-grey sm like-number">{{item.love}}</view>
       </view>
     </view>
 
@@ -247,6 +247,31 @@ page {
           this.toast("目前还没人哦！","none",1000)
         }
         this.element=this.data.elements[2]
+      },
+      clickLove(e){
+        //点击了爱心，这里采用匿名点赞方式
+        let index=e.currentTarget.dataset.index
+        //console.log(index)
+        if(!this.data.element[index].isLove){
+          //刚加载后还没有被点赞
+          this.element[index].love=this.data.element[index].love+1
+          this.element[index].isLove=true
+
+          /**这里不用再给elements赋值了，因为element是elements的引用，一方改动另一方也随之改动
+          let i=2
+          if(this.data.button=="day"){i=0}else if(this.data.button=="week"){i=1}
+          this.data.elements[i][index].love=this.data.elements[i][index].love+1
+          this.data.elements[i][index].isLove=true**/
+
+          let i=2
+          if(this.data.button=="day"){i=0}else if(this.data.button=="week"){i=1}
+
+          //i表示哪个排行榜，index+1表示第几名
+          this.sendLove(i,index)
+
+        }else{
+          this.toast("暗恋人家啊，刚点过的！","none",1000)
+        }
       }
 
     }
@@ -290,26 +315,52 @@ page {
     getMsg(){
       var that=this
       wx.request({
-      url:that.$parent.globalData.url + "time/queryRank",
-      method: 'GET',
-      data: {},
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      complete: function (res) {
-        if (res.statusCode != 200) {
-          that.log("网络传输有错误！");
-          that.toast("网络连接失败！","",1500)
-        } else if(res.data==""){
-          that.toast("服务器出错！","",700)
-        }else{
-          //得到的数据时从大到小排列的
-          that.data.elements=res.data
-          that.calculateTime()
-          console.log(res.data)
+        url:that.$parent.globalData.url + "rank/queryRank",
+        method: 'GET',
+        data: {},
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        complete: function (res) {
+          if (res.statusCode != 200) {
+            that.log("网络传输有错误！");
+            that.toast("网络连接失败！","",1500)
+          } else if(res.data==""){
+            that.toast("服务器出错！","",700)
+          }else{
+            //得到的数据时从大到小排列的
+            that.data.elements=res.data
+            that.calculateTime()
+            console.log(res.data)
+          }
         }
-      }
-    })
+
+      })
+
+    }
+
+    sendLove(i,index){
+      //i表示哪个排行榜，index+1表示第几名
+      //发送点赞信息
+      console.log("给排行榜"+i+"的第"+index+"名点赞")
+      let that=this
+      wx.request({
+        url:that.$parent.globalData.url + "rank/clickLove",
+        method: 'POST',
+        data: {"rankType":i,"ranking":index},
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        complete: function (res) {
+          if (res.statusCode != 200) {
+            that.log("网络传输有错误！");
+          }else{
+            console.log("点赞成功")
+          }
+        }
+        
+      })
+
     }
 
     calculateTime(){

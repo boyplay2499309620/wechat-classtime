@@ -120,7 +120,7 @@
 
     <!--<button @tap="test">test</button>-->
     <view wx:if="{{button==true}}">
-      <button class="size cu-btn bg-orange animation-{{animation=='scale-up'? 'scale-up' :''}} basis-sm shadow" bindtap='toggle1' data-class='scale-up' >再来一次</button>
+      <button class="size cu-btn bg-orange animation-{{animation=='scale-up'? 'scale-up' :''}} basis-sm shadow" bindtap='toggle1' data-class='scale-up' >开始吧!</button>
     </view>
     <view wx:else>
       <button class="size cu-btn bg-mauve animation-{{animation=='shake'? 'shake' :''}} basis-sm shadow" bindtap='toggle' data-class='shake' >结束专注</button>
@@ -226,10 +226,10 @@
         this.modelShow=""
       },
       toggle(e) {
-        //按stop
+        //按结束专注
         //console.log(e);
-        var anmiaton = e.currentTarget.dataset.class;
-        var that = this;
+        let anmiaton = e.currentTarget.dataset.class;
+        let that = this;
         that.animation=anmiaton
         that.$apply()
 
@@ -252,17 +252,17 @@
 
       },
       toggle1(e) {
-        //按再来一次
+        //按开始吧!
         //console.log(e);
-        var anmiaton = e.currentTarget.dataset.class;
-        var that = this;
+        let anmiaton = e.currentTarget.dataset.class;
+        let that = this;
         this.animation=anmiaton
         this.pauseFront=[]
         this.msg="00:00:00"
         this.msg_text="把手机翻过去，才能算专注哦！"
 
         //对that.data.begain重新赋值
-        var date = new Date();
+        let date = new Date();
         that.data.begain = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
         this.$apply()
@@ -279,6 +279,8 @@
         },800)
 
       }
+
+
     }
 
     events = {
@@ -289,7 +291,7 @@
       //生命周期函数--监听页面加载
       this.StatusBar=this.$parent.globalData.StatusBar
       this.CustomBar=this.$parent.globalData.CustomBar
-      var that=this
+      let that=this
       //这个函数放sendMsg函数里会有延迟错误
       wx.getNetworkType({
         success(res) {
@@ -312,9 +314,9 @@
        *但不能更新前端界面
        **/
 
-      var that = this;
-      var date = new Date();
-      var mon = date.getMonth() + 1;
+      let that = this;
+      let date = new Date();
+      let mon = date.getMonth() + 1;
       that.data.dates = date.getFullYear() + "."+ mon +"."+ date.getDate();
       //console.log(that.data.dates)
       that.data.begain = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -529,6 +531,7 @@
           this.sendMsg();
         }else{
           //由于没有发送消息了，自然也就没有清理上一次变量了，这里清理一下
+          that.data.begain=""
           this.data.ends=""
           this.data.times=0
           this.data.times1=0
@@ -558,10 +561,10 @@
     }
 
     console.log("sendMsg")
-    var that=this
-    var app=this.$parent
+    let that=this
+    let app=this.$parent
 
-    var date = new Date()
+    let date = new Date()
     this.data.ends = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
 
     //console.log("app.globalData.roomId:"+app.globalData.roomId)
@@ -605,6 +608,7 @@
             //就是这里把this.data.dates清除后导致再次开始后后台收不到记录
             //this.data.dates=""
             //这个this.data.dates代表的是年月日，大概率不用清除
+            that.data.begain=""
             that.data.ends=""
             that.data.times=0
             that.data.times1=0
@@ -625,8 +629,8 @@
   }
 
   online(){
-    var app=this.$parent
-    var that=this
+    let app=this.$parent
+    let that=this
     //前端每1分钟发一次，后台五分钟没收到online信号，即视为已不在线
 
     //开始,若进入了房间，向后台报告我已上线
@@ -656,8 +660,8 @@
   }
 
   suspend(){
-    var app=this.$parent
-    var that=this
+    let app=this.$parent
+    let that=this
     //if(app.globalData.flag==false){
       //app.globalData.flag=true;
 
