@@ -1,25 +1,101 @@
 <!--计时页面-->
 <style>
 .not{
-  width: 60%;
-  height: 70rpx;
-  font-size: 38rpx;
+  width: 60%;height: 70rpx;line-height: 70rpx;
+  font-size: 38rpx;text-align: center;
   margin-top: 100rpx;
   border-radius: 15rpx;
-  line-height: 70rpx;
-  text-align: center;
-  background-color: #8A2BE2;
-  color: #fff;
+  background-color: #8A2BE2; color: #fff;
 }
 .graph{width:400rpx;height: 400rpx;display: flex;flex-direction: column; border:8rpx solid #8A2BE2 ;border-radius:50%; align-items: center;}
 .graph image{width: 200rpx;height: 150rpx;margin-top: 70rpx;}
 .text{margin-top: 50rpx;text-align: center;font-size: 35rpx;background-color: #f1f1f1; color: #9932CC;}
+
+.time_card{
+  width: 700rpx;height:500rpx;
+  margin-left: 25rpx;margin-top: 140rpx;
+  background-size:700rpx 500rpx;
+  border-radius: 30rpx;
+}
+.time_card image{width: 50rpx;height: 50rpx;}
+.msg_text{width:250rpx;height:80rpx;line-height: 80rpx;text-align: center;font-size:55rpx;font-weight: bold;color:#49A2FC;}
+.tip_text{
+  width:250rpx;height:80rpx;line-height: 80rpx;
+  text-align: center;font-size:40rpx;font-weight: bold;
+  color:#49A2FC;
+}
+.poetry{
+    width: 500rpx;height: 50rpx;line-height: 50rpx;
+    margin-left: 150rpx;
+    font-size: 30rpx;
+    color: #3A758C;
+    overflow: hidden;text-overflow:ellipsis;white-space: nowrap;
+}
+
+.summer_image{
+  margin-left: 630rpx;margin-top: 10rpx;
+}
+.summer_time_text{
+    width: 300rpx;height: 300rpx;
+    margin-top: 30rpx;
+    margin-left:90rpx;
+    overflow: hidden;
+}
+.summer_time_text .time_msg{
+    margin-top: 50rpx;
+    margin-left:30rpx;
+}
+.summer_time_text .time_tip{
+    margin-top: 70rpx;
+    margin-left:30rpx;
+}
+.summer_poe{margin-top: 50rpx;}
+
+.abstract_image{margin-left: 630rpx;margin-top: 10rpx;}
+.abstract_time_text{
+    width: 500rpx;height: 330rpx;
+    margin-top:30rpx;
+    margin-left:90rpx;
+    overflow: hidden;
+}
+.abstract_time_text .time_tip{
+  margin-top: 20rpx;
+  margin-left:120rpx;
+}
+.abstract_time_text .time_msg{
+    margin-top: 50rpx;
+    margin-left:130rpx;
+}
+.abstract_poe{margin-left: 200rpx;margin-top: 15rpx;}
+
+.universe_image{margin-left: 550rpx;margin-top: 10rpx;}
+.universe_time_text{
+    width: 500rpx;height: 330rpx;
+    margin-top:30rpx;
+    margin-left:90rpx;
+    overflow: hidden;
+}
+.universe_time_text .time_tip{
+  margin-top: 20rpx;
+  margin-left:130rpx;
+  color:#EE5454;
+}
+.universe_time_text .time_msg{
+    margin-top: 25rpx;
+    margin-left:130rpx;
+    color:#EEAF6E;
+}
+.universe_poe{margin-left: 150rpx;width:550rpx; margin-top: 15rpx;color:#E9EDF0;}
+
+
 .msg{margin-top: 50rpx;text-align: center;font-size: 35rpx;color:#495060;}
 .result{width:700rpx; display: flex;flex-direction: column;align-items: center;}
 .view1{background-color: #8A2BE2;border-radius: 10rpx;color:#ffffff;padding: 5rpx;font-size: 30rpx;}
 .left_graph{background-color:#9C26B0;margin:10rpx 350rpx 0rpx 50rpx;}
 .right_graph{background-color:#EBD4EF;margin:10rpx 50rpx 0rpx 350rpx;}
 .graph_text{width: 280rpx;height: 50rpx;color: #ffffff;border-radius: 10rpx;text-align: center;line-height: 50rpx;padding-left:20rpx;}
+
+.image_tips{width:300rpx; height: 300rpx;border-radius: 33rpx;}
 
 
 /*button animtion css code*/
@@ -28,159 +104,165 @@
     animation-timing-function: ease-out;
     animation-fill-mode: both
 }
-.animation-shake {
-    animation-name: shake
-}
-.animation-scale-up {
-    animation-name: scale-up
-}
-
+.animation-shake {animation-name: shake}
+.animation-scale-up {animation-name: scale-up}
 .size{width: 350rpx;height: 70rpx; margin:50rpx 0 35rpx 0;font-size: 35rpx;}
-
-@keyframes scale-up {
-    0% {
-        opacity: 0;
-        transform: scale(.2)
-    }
-
-    100% {
-        opacity: 1;
-        transform: scale(1)
-    }
-}
-@keyframes shake {
-
-    0%,
-    100% {
-        transform: translateX(0)
-    }
-
-    10% {
-        transform: translateX(-9px)
-    }
-
-    20% {
-        transform: translateX(8px)
-    }
-
-    30% {
-        transform: translateX(-7px)
-    }
-
-    40% {
-        transform: translateX(6px)
-    }
-
-    50% {
-        transform: translateX(-5px)
-    }
-
-    60% {
-        transform: translateX(4px)
-    }
-
-    70% {
-        transform: translateX(-3px)
-    }
-
-    80% {
-        transform: translateX(2px)
-    }
-
-    90% {
-        transform: translateX(-1px)
-    }
-}
+@keyframes scale-up {0% {opacity: 0;transform: scale(.2)}100% {opacity: 1;transform: scale(1)}}
+@keyframes shake {0%,100% {transform: translateX(0)}10% {transform: translateX(-9px)}20% { transform: translateX(8px)}30% {transform: translateX(-7px)}40% {transform: translateX(6px)}50% {transform: translateX(-5px)}60% {transform: translateX(4px)}70% {transform: translateX(-3px)}80% { transform: translateX(2px)}90% {transform: translateX(-1px)}}
 
 
 </style>
 
 <template>
-  <!--
-  <view class="cu-custom" style="height:{{CustomBar}}px;">
-  <view class="cu-bar fixed gradual-blue"style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
-    <navigator class="action" open-type="navigateBack" delta=1 hover-class="none">
-      <text class='icon-back'></text>计时
-    </navigator>
-  </view>
-  </view>-->
-  <view class="container">
+<!--
+<view class="cu-custom" style="height:{{CustomBar}}px;">
+<view class="cu-bar fixed gradual-blue"style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+<navigator class="action" open-type="navigateBack" delta=1 hover-class="none">
+<text class='icon-back'></text>计时
+</navigator>
+</view>
+</view>-->
+    <view class="container">
 
-    <view class="not" wx:if="{{roomId!=''}}">您的房间号为：{{roomId}}</view>
-    
-    <view class="graph" style="margin-top:{{graph_top}}rpx;">
+        <view class="not" wx:if="{{roomId!=''}}">您的房间号为：{{roomId}}</view>
 
-      <image wx:if="{{!state}}" src='https://image.weilanwl.com/gif/loading-white.gif' mode='aspectFit' class='gif-white response'></image>
+        <!--<view class="graph" style="margin-top:{{graph_top}}rpx;">
 
-      <image wx:else src='https://image.weilanwl.com/gif/rhomb-white.gif' mode='aspectFit' class='gif-white response'></image>
+        <image wx:if="{{!state}}" src='https://image.weilanwl.com/gif/loading-white.gif' mode='aspectFit' class='gif-white response'></image>
 
-      <view class="text">{{msg}}</view>
-    </view>
-    <view class="msg">{{msg_text}}</view>
+        <image wx:else src='https://image.weilanwl.com/gif/rhomb-white.gif' mode='aspectFit' class='gif-white response'></image>
 
-    <!--<button @tap="test">test</button>-->
-    <view wx:if="{{button==true}}">
-      <button class="size cu-btn bg-orange animation-{{animation=='scale-up'? 'scale-up' :''}} basis-sm shadow" bindtap='toggle1' data-class='scale-up' >开始吧!</button>
-    </view>
-    <view wx:else>
-      <button class="size cu-btn bg-mauve animation-{{animation=='shake'? 'shake' :''}} basis-sm shadow" bindtap='toggle' data-class='shake' >结束专注</button>
-    </view>
+        <view class="text">{{msg}}</view>
+        </view>-->
 
-    <view class="result">
-      <view class="view1">开始</view>
-      <view wx:for="{{pauseFront}}" class="{{index%2==0 ? 'left_graph graph_text':'right_graph graph_text'}}">{{item}}</view>
-      <!--<view class="left_graph graph_text">left_graph</view>
-      <view class="right_graph graph_text">right_graph</view>
-      <view class="left_graph graph_text">left_graph</view>
-      <view class="right_graph graph_text">right_graph</view>-->
-    </view>
-
-  </view>
-
-  <!--introduce begain-->
-  <view class="cu-timeline" style="background-color:#F1F1F1;margin-top:100rpx;" wx:if="{{msg=='00:00:00' && roomId==''}}">
-    <view class="cu-time" style="width:200rpx;font-size:27rpx;">温馨提示</view>
-    <view class='cu-item cur text-mauve icon-noticefill'>
-      <view class="content bg-mauve shadow-blur">
-        当您加入房间后，房主才能看到你的记录哦
-      </view>
-    </view>
-  </view>
-  <!--introduce end-->
-
-
-  <!--modelShow begain-->
-  <view class="cu-modal {{modelShow=='show'?'show':''}}">
-    <view class="cu-dialog">
-      <view class="cu-bar bg-white justify-end">
-        <view class='content'>提示！</view>
-        <view class='action' @tap="cancel">
-          <text class='icon-close text-red'></text>
+        <!--夏日阳光-->
+        <view class="time_card" style="background-image: url(http://www.classtime.top/classtime/time/summer.jpg);" wx:if="{{cardMethod==0}}">
+            <image class="summer_image" src="./image/9.png" @tap="changeMethod" />
+            <view class="summer_time_text">
+                <view class="time_msg msg_text">{{msg}}</view>
+                <view class="time_tip tip_text" wx:if="{{!state}}">暂停中</view>
+                <view class="time_tip tip_text" wx:if="{{state}}">专注</view>
+            </view>
+            <view class="poetry summer_poe">年少时，我曾仰望星空，向众星祈祷。</view>
         </view>
-      </view>
 
-      <view class='padding-xl'>
-        <view style="margin-top:20rpx;">现在我们无法标识您的个人身份，这次记录将不会被保存！</view>
-        <view style="margin-top:20rpx;">请检查您的网络，或者退出重试等！</view>
-      </view>
+        <!--绝对抽象-->
+        <view class="time_card" style="background-image: url(http://www.classtime.top/classtime/time/abstract.jpg);" wx:if="{{cardMethod==1}}">
+            <image class="abstract_image" src="./image/10.png" @tap="changeMethod" />
+                <view class="abstract_time_text">
+                <view class="time_tip tip_text" wx:if="{{!state}}">暂停中</view>
+                <view class="time_tip tip_text" wx:if="{{state}}">专注</view>
+                <view class="time_msg msg_text">{{msg}}</view>
+            </view>
+            <view class="poetry abstract_poe">没有抽象的真理，真理总是具体的。</view>
+        </view>
+
+        <!--湛蓝宇宙-->
+        <view class="time_card" style="background-image: url(http://www.classtime.top/classtime/time/universe.jpg);" wx:if="{{cardMethod==2}}">
+            <image class="universe_image" src="./image/9.png" @tap="changeMethod" />
+            <view class="universe_time_text">
+                <view class="time_tip tip_text" wx:if="{{!state}}">暂停中</view>
+                <view class="time_tip tip_text" wx:if="{{state}}">专注</view>
+                <view class="time_msg msg_text">{{msg}}</view>
+            </view>
+            <view class="universe_poe poetry">繁星闪耀，我要努力飞向等我的人儿啊。</view>
+        </view>
+
+        <view class="msg">{{msg_text}}</view>
+
+        <!--<button @tap="test">test</button>-->
+        <view wx:if="{{button==true}}">
+            <button class="size cu-btn bg-orange animation-{{animation=='scale-up'? 'scale-up' :''}} basis-sm shadow" bindtap='begainTime' data-class='scale-up' >开始吧!</button>
+        </view>
+        <view wx:else>
+            <button class="size cu-btn bg-mauve animation-{{animation=='shake'? 'shake' :''}} basis-sm shadow" bindtap='stopTime' data-class='shake' >结束专注</button>
+        </view>
+
+        <view class="result" wx:if="{{!button}}">
+            <view class="view1">开始</view>
+            <view wx:for="{{pauseFront}}" class="{{index%2==0 ? 'left_graph graph_text':'right_graph graph_text'}}">{{item}}</view>
+            <!--<view class="left_graph graph_text">left_graph</view>
+            <view class="right_graph graph_text">right_graph</view>
+            <view class="left_graph graph_text">left_graph</view>
+            <view class="right_graph graph_text">right_graph</view>-->
+        </view>
+        <image wx:else class="image_tips" src="./image/{{phone_image==0 ? 'phone_down':'phone_up'}}.jpg" />
 
     </view>
-  </view>
-  <!--modelShow end-->
+
+<!--introduce begain--><!--
+<view class="cu-timeline" style="background-color:#F1F1F1;margin-top:100rpx;" wx:if="{{msg=='00:00:00' && roomId==''}}">
+<view class="cu-time" style="width:200rpx;font-size:27rpx;">温馨提示</view>
+<view class='cu-item cur text-mauve icon-noticefill'>
+<view class="content bg-mauve shadow-blur">
+当您加入房间后，房主才能看到你的记录哦
+</view>
+</view>
+</view>-->
+<!--introduce end-->
+
+
+    <!--modelShow begain-->
+    <view class="cu-modal {{modelShow=='show'?'show':''}}">
+        <view class="cu-dialog">
+            <view class="cu-bar bg-white justify-end">
+                <view class='content'>提示！</view>
+                <view class='action' @tap="cancel">
+                    <text class='icon-close text-red'></text>
+                </view>
+            </view>
+
+            <view class='padding-xl'>
+                <view style="margin-top:20rpx;">现在我们无法标识您的个人身份，这次记录将不会被保存！</view>
+                <view style="margin-top:20rpx;">请检查您的网络，或者退出重试等！</view>
+            </view>
+
+        </view>
+    </view>
+    <!--modelShow end-->
+
+    <!--RadioModal begain-->
+    <view class="cu-modal {{RadioModal=='show'?'show':''}}" bindtap="cancel">
+        <view class="cu-dialog">
+            <radio-group class="block" catchtap>
+                <view class="cu-list menu text-left">
+                    <view class="cu-item" bindtap="chooseRadio" data-index="0">
+                        <label class="flex justify-between align-center flex-sub">
+                            <view class="flex-sub">夏日海滩</view>
+                            <radio class="round"></radio>
+                        </label>
+                    </view>
+                    <view class="cu-item" bindtap="chooseRadio" data-index="1">
+                        <label class="flex justify-between align-center flex-sub">
+                            <view class="flex-sub">绝对抽象</view>
+                            <radio class="round"></radio>
+                        </label>
+                    </view>
+                    <view class="cu-item" bindtap="chooseRadio" data-index="2">
+                        <label class="flex justify-between align-center flex-sub">
+                            <view class="flex-sub">湛蓝宇宙</view>
+                            <radio class="round"></radio>
+                        </label>
+                    </view>
+                </view>
+            </radio-group>
+        </view>
+    </view>
+    <!--RadioModal end-->
 
 </template>
 
 
 <script>
-  import wepy from 'wepy'
+import wepy from 'wepy'
 
-  export default class time extends wepy.page {
+export default class time extends wepy.page {
     config = {
-      navigationBarTitleText: '听课了',
-      usingComponents:{
-      },
-      enablePullDownRefresh: false,//关闭下拉刷新 
-      backgroundTextStyle: "dark",//白色主题启用深色模式，在下拉刷新时才能有白色圆点
+        navigationBarTitleText: '听课了',
+        usingComponents:{
+        },
+        enablePullDownRefresh: false,//关闭下拉刷新 
+        backgroundTextStyle: "dark",//白色主题启用深色模式，在下拉刷新时才能有白色圆点
     }
     components = {
     }
@@ -188,509 +270,549 @@
     mixins = []
 
     data = {
-      roomId:"",
-      timeId:0,//表示本次记录在数据库中time表的主键id，若为0表示还没提交到数据库中
-      graph_top:130,//控制graph的margin-top
-      state:false,
-      msg:"00:00:00",
-      msg_text:"把手机翻过去，才能算专注哦！",
-      StatusBar:"",
-      CustomBar:"",
-      pauseFront:[],//用于前端显示本次计时的详细情况
-      dates:"",//年月日
-      begain:"",//开始时间
-      ends:"",//结束时间
-      times:0,//总时间
-      times1:0,//设定的变量，用来控制向后台发送阶段性的计时信息
-      timestamp:0,//每一阶段内的总的计时时间戳
-      timestamp1:0,//整个计时过程的计时时间戳
-      begain_timestamp:0,//每一阶段开始的时间戳
-      stop_timestamp:0,//每一阶段停止的时间戳
-      sec:0,//本次计时统计的秒数
-      min:0,//本次计时统计的分钟数
-      hou:0,//本次计时统计的小时数
-      pause:0,//暂停次数
-      pauseMsg:"",//记录每次暂停的详细信息，形式如12:34-12:44&12:46-12:55，小时:分钟-小时:分钟
-      animation:"",
-      button:false,//是否显示开始键
-      timeSituation:false,//标识提交信息时的状态，false表示还没结束，只是暂停时提交下信息。true表示结束了
-      modelShow:"",
+        roomId:"",
+        timeId:0,//表示本次记录在数据库中time表的主键id，若为0表示还没提交到数据库中
+        graph_top:130,//控制graph的margin-top
+        state:false,
+        msg:"00:00:00",
+        msg_text:"把手机翻过去，才能算专注哦！",
+        StatusBar:"",
+        CustomBar:"",
+        pauseFront:[],//用于前端显示本次计时的详细情况
+        dates:"",//年月日
+        begain:"",//开始时间
+        ends:"",//结束时间
+        times:0,//总时间
+        times1:0,//设定的变量，用来控制向后台发送阶段性的计时信息
+        timestamp:0,//每一阶段内的总的计时时间戳
+        timestamp1:0,//整个计时过程的计时时间戳
+        begain_timestamp:0,//每一阶段开始的时间戳
+        stop_timestamp:0,//每一阶段停止的时间戳
+        sec:0,//本次计时统计的秒数
+        min:0,//本次计时统计的分钟数
+        hou:0,//本次计时统计的小时数
+        pause:0,//暂停次数
+        pauseMsg:"",//记录每次暂停的详细信息，形式如12:34-12:44&12:46-12:55，小时:分钟-小时:分钟
+        animation:"",
+        button:true,//是否显示开始键
+        timeSituation:false,//标识提交信息时的状态，false表示还没结束，只是暂停时提交下信息。true表示结束了
+        modelShow:"",
+        RadioModal:"",//计时样式单选框
+        cardMethod:1,//显示哪种计时框,
+        phone_image:0,//显示手机向上还是向下的图片
+        interval1Id:"",//回调函数的id
     }
 
     computed = {
-      
+
     }
 
     methods = {
-      cancel(){
-        this.modelShow=""
-      },
-      toggle(e) {
-        //按结束专注
-        //console.log(e);
-        let anmiaton = e.currentTarget.dataset.class;
-        let that = this;
-        that.animation=anmiaton
-        that.$apply()
+        changeMethod(){
+            this.RadioModal="show"
+        },
+        chooseRadio(e){
+            this.RadioModal=""
+            console.log(e.currentTarget.dataset.index)
+            wx.setStorageSync("cardMethod",e.currentTarget.dataset.index)
+            this.cardMethod=e.currentTarget.dataset.index
+        },
+        cancel(){
+            this.modelShow="" 
 
-        setTimeout(function() {
-         that.animation=''
-          that.$apply()
-        }, 1000)
-
-        if(!this.data.state){
-          //用户在手机屏幕向上的时候才能停止
-          setTimeout(function(){
-            that.button=true
+            this.RadioModal=""
+        },
+        stopTime(e) {
+            //按结束专注
+            //console.log(e);
+            let anmiaton = e.currentTarget.dataset.class;
+            let that = this;
+            that.animation=anmiaton
             that.$apply()
-          },800)
-          that.closeCountDown()
-        }else{
-          //用户在手机屏幕向下的时候操作的，不干嘛！继续计时
-          this.toast("这样仰着头脖子不疼吗！！！","none",2000)
+
+            setTimeout(function() {
+            that.animation=''
+            that.$apply()
+            }, 1000)
+
+            if(!this.data.state){
+                //用户在手机屏幕向上的时候才能停止
+                setTimeout(function(){
+                    that.button=true
+                    that.$apply()
+                },800)
+
+                that.closeCountDown()
+            }else{
+                //用户在手机屏幕向下的时候操作的，不干嘛！继续计时
+                this.toast("这样仰着头脖子不疼吗！！！","none",2000)
+            }
+
+            //控制提示图片切换
+            this.data.interval1Id=setInterval(()=>{ 
+                that.phone_image=(that.data.phone_image+1)%2
+                that.$apply()
+            },2000)
+
+        },
+        begainTime(e) {
+            //按开始吧!
+            //console.log(e);
+            let anmiaton = e.currentTarget.dataset.class;
+            let that = this;
+            this.animation=anmiaton
+            this.pauseFront=[]
+            this.msg="00:00:00"
+            this.msg_text="把手机翻过去，才能算专注哦！"
+
+            //对that.data.begain重新赋值
+            let date = new Date();
+            that.data.begain = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+            this.$apply()
+            setTimeout(function() {
+                that.animation=''
+                that.$apply()
+            }, 1000)
+
+            wx.startAccelerometer()
+
+            setTimeout(function(){
+                that.button=false
+                that.$apply()
+            },800)
+
+            clearInterval(this.data.interval1Id);
+
         }
-
-      },
-      toggle1(e) {
-        //按开始吧!
-        //console.log(e);
-        let anmiaton = e.currentTarget.dataset.class;
-        let that = this;
-        this.animation=anmiaton
-        this.pauseFront=[]
-        this.msg="00:00:00"
-        this.msg_text="把手机翻过去，才能算专注哦！"
-
-        //对that.data.begain重新赋值
-        let date = new Date();
-        that.data.begain = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-
-        this.$apply()
-        setTimeout(function() {
-         that.animation=''
-          that.$apply()
-        }, 1000)
-
-        wx.startAccelerometer()
-
-        setTimeout(function(){
-          that.button=false
-          that.$apply()
-        },800)
-
-      }
-
 
     }
 
     events = {
-      
+
     }
 
+
     onLoad(options) {
-      //生命周期函数--监听页面加载
-      this.StatusBar=this.$parent.globalData.StatusBar
-      this.CustomBar=this.$parent.globalData.CustomBar
-      let that=this
-      //这个函数放sendMsg函数里会有延迟错误
-      wx.getNetworkType({
-        success(res) {
-          that.$parent.globalData.netWorkType = res.networkType;
-        },
-        fail(res) {
-          console.log("netWorkType get failed...");
-          that.$parent.globalData.netWorkType ="unknow"
+        //生命周期函数--监听页面加载
+        this.StatusBar=this.$parent.globalData.StatusBar
+        this.CustomBar=this.$parent.globalData.CustomBar
+        let that=this
+        let cardMethod=wx.getStorageSync("cardMethod")
+        //console.log(cardMethod)
+        if(cardMethod==""){
+            this.cardMethod=0
+            wx.setStorageSync("cardMethod","0")
+        }else{
+            this.cardMethod=cardMethod
         }
-      });
+        //这个函数放sendMsg函数里会有延迟错误
+        wx.getNetworkType({
+            success(res) {
+                that.$parent.globalData.netWorkType = res.networkType;
+            },
+            fail(res) {
+                console.log("netWorkType get failed...");
+                that.$parent.globalData.netWorkType ="unknow"
+            }
+        });
+
+        //控制提示图片切换
+        this.data.interval1Id=setInterval(()=>{ 
+            that.phone_image=(that.data.phone_image+1)%2
+            that.$apply()
+        },2000)
+
     }
 
     onReady(){
-      //生命周期函数--监听页面初次渲染完成
+        //生命周期函数--监听页面初次渲染完成
 
-      /*
-       *wepy的数据传递采用脏数据检查的形式
-       *即便利用this.$Apply()也有延迟
-       *但直接使用this.data.***可不用脏数据检查
-       *但不能更新前端界面
-       **/
+        /*
+        *wepy的数据传递采用脏数据检查的形式
+        *即便利用this.$Apply()也有延迟
+        *但直接使用this.data.***可不用脏数据检查
+        *但不能更新前端界面
+        **/
 
-      let that = this;
-      let date = new Date();
-      let mon = date.getMonth() + 1;
-      that.data.dates = date.getFullYear() + "."+ mon +"."+ date.getDate();
-      //console.log(that.data.dates)
-      that.data.begain = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        let that = this;
+        let date = new Date();
+        let mon = date.getMonth() + 1;
+        that.data.dates = date.getFullYear() + "."+ mon +"."+ date.getDate();
+        //console.log(that.data.dates)
+        that.data.begain = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
-      wx.onAccelerometerChange(function (res) {
-       if (res.z >= 0) {
-         //手机翻过去
-         if (!that.data.state) {
-           //手机翻过去的那一瞬间
-           that.state=true
-           that.msg_text="开始专注了..."
-           that.data.begain_timestamp = (new Date()).valueOf();
-           //得到这一次开始的时间信息
-           date=new Date()
-           that.data.pauseMsg = that.data.pauseMsg + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "-";
-           console.log("begain")
+        wx.onAccelerometerChange(function (res) {
+            if (res.z >= 0) {
+                //手机翻过去
+                if (!that.data.state) {
+                    //手机翻过去的那一瞬间
+                    that.state=true
+                    that.msg_text="开始专注了..."
+                    that.data.begain_timestamp = (new Date()).valueOf();
+                    //得到这一次开始的时间信息
+                    date=new Date()
+                    that.data.pauseMsg = that.data.pauseMsg + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "-";
+                    console.log("begain")
 
-           if(that.data.stop_timestamp!=0){
-            //表示暂停一段时间后又开始了，添加一个暂停周期的提示
-            let t=that.data.begain_timestamp-that.data.stop_timestamp
-            date=new Date(t)
-            let mt=date.getMinutes()
-            let st=date.getSeconds()
-            let ti=""
-            //当有快速反转的情况时，省略掉0的情况
-            if(mt!=0 || st!=0){
-              ti="暂停 "+mt+"分 "+st+"秒"
-            }else{
-              ti="只停了一下下..."
+                    if(that.data.stop_timestamp!=0){
+                        //表示暂停一段时间后又开始了，添加一个暂停周期的提示
+                        let t=that.data.begain_timestamp-that.data.stop_timestamp
+                        date=new Date(t)
+                        let mt=date.getMinutes()
+                        let st=date.getSeconds()
+                        let ti=""
+                        //当有快速反转的情况时，省略掉0的情况
+                        if(mt!=0 || st!=0){
+                            ti="暂停 "+mt+"分 "+st+"秒"
+                        }else{
+                            ti="只停了一下下..."
+                        }
+                        let front=that.data.pauseFront
+                        front.push(ti)
+                        that.pauseFront=front
+                        that.$apply()
+                    }
+
+                    //由于系统对后台的控制，屏幕熄灭后就会停止监听甚至清理后台，所以就不再每一分钟就发送消息
+                    that.online();
+                }
+
+                //更新时间统计数据
+                that.data.stop_timestamp = (new Date()).valueOf();
+                that.data.timestamp = that.data.stop_timestamp - that.data.begain_timestamp;
+
+                let k = that.data.timestamp1 + that.data.timestamp;
+                date=new Date(k)
+                that.data.sec = date.getSeconds();
+                that.data.min = date.getMinutes();
+                let h = date.getHours();
+                //由于时间戳之间的运算没有考虑时差，date.getHours()的值总提前8个小时
+                if(h>=8){h-=8}else{h+=16}
+                that.data.hou=h
+
+                //持续更新界面的时间 
+                let a=""
+                let b=""
+                let c=""
+                //以下三个for循环意味构造形如"00:00:00"的信息提示
+                if(that.data.hou==0) {a="00"}
+                else if(that.data.hou>0 && that.data.hou<10){a="0"+that.data.hou}
+                else{a=that.data.hou}
+
+                if(that.data.min==0) {b="00"}
+                else if(that.data.min>0 && that.data.min<10){b="0"+that.data.min}
+                else{b=that.data.min}
+
+                if(that.data.sec==0) {c="00"}
+                else if(that.data.sec>0 && that.data.sec<10){c="0"+that.data.sec}
+                else{c=that.data.sec}
+
+                that.msg=a+":"+b+":"+c
+                that.$apply()
+
+            } else if (res.z < 0 && that.data.state ) {
+                //手机翻过来的这一刻
+                console.log("suspend---");
+
+                that.suspend();
+
+                that.state=false
+                that.msg_text="停止专注了..."
+                that.data.pause++
+                that.$apply()
+
+                that.data.timestamp1 += that.data.timestamp
+
+                if(that.data.begain_timestamp!=0){
+                    //表示开始一段时间后又暂停了，添加一个专注周期时间的提示
+                    date=new Date(that.data.timestamp)
+                    let h = date.getHours();
+                    //由于时间戳之间的运算没有考虑时差，date.getHours()的值总提前8个小时
+                    if(h>=8){h-=8}else{h+=16}
+
+                    //如果有小时数则给与小时数的提示
+                    if(h!=0){
+                        let ti="专注 "+h+"小时 "+date.getMinutes()+"分 "+date.getSeconds()+"秒"
+                        let front=that.data.pauseFront
+                        front.push(ti)
+                        that.pauseFront=front
+                    }else{
+                        let mt=date.getMinutes()
+                        let st=date.getSeconds()
+                        let ti=""
+                        if(mt!=0 || st!=0){
+                            ti="专注 "+mt+"分 "+st+"秒"
+                        }else{
+                            ti="开始了一秒不到..."
+                        }
+                        let front=that.data.pauseFront
+                        front.push(ti)
+                        that.pauseFront=front
+                    }
+                    that.$apply()
+                }
+
+                that.data.times=parseInt(that.data.hou*3600)+parseInt(that.data.min*60)+parseInt(that.data.sec)
+
+                //暂停时该次计时大于60秒才发送服务器保存一下上个阶段的记录，否则不发
+                if(that.data.times >= that.data.times1+60){
+                    that.data.times1=that.data.times
+                    that.sendMsg()
+                }
+
+                if(that.data.pause>5){
+                    //暂停次数超过8次，停止计时
+                    that.pauseFront="一点都不专注，停这么多次!"
+                    that.msg="计时停止！"
+                    that.$apply()
+                    that.closeCountDown()
+                }
+
             }
-            let front=that.data.pauseFront
-            front.push(ti)
-            that.pauseFront=front
-            that.$apply()
-           }
-           
-           //由于系统对后台的控制，屏幕熄灭后就会停止监听甚至清理后台，所以就不再每一分钟就发送消息
-           that.online();
-         }
-         
-         //更新时间统计数据
-         that.data.stop_timestamp = (new Date()).valueOf();
-         that.data.timestamp = that.data.stop_timestamp - that.data.begain_timestamp;
 
-         let k = that.data.timestamp1 + that.data.timestamp;
-         date=new Date(k)
-         that.data.sec = date.getSeconds();
-         that.data.min = date.getMinutes();
-         let h = date.getHours();
-         //由于时间戳之间的运算没有考虑时差，date.getHours()的值总提前8个小时
-         if(h>=8){h-=8}else{h+=16}
-         that.data.hou=h
+        });
 
-         //持续更新界面的时间 
-         let a=""
-         let b=""
-         let c=""
-         //以下三个for循环意味构造形如"00:00:00"的信息提示
-         if(that.data.hou==0) {a="00"}
-         else if(that.data.hou>0 && that.data.hou<10){a="0"+that.data.hou}
-         else{a=that.data.hou}
-
-         if(that.data.min==0) {b="00"}
-         else if(that.data.min>0 && that.data.min<10){b="0"+that.data.min}
-         else{b=that.data.min}
-
-         if(that.data.sec==0) {c="00"}
-         else if(that.data.sec>0 && that.data.sec<10){c="0"+that.data.sec}
-         else{c=that.data.sec}
-
-         that.msg=a+":"+b+":"+c
-         that.$apply()
-
-       } else if (res.z < 0 && that.data.state ) {
-         //手机翻过来的这一刻
-         console.log("suspend---");
-
-        that.suspend();
-
-         that.state=false
-         that.msg_text="停止专注了..."
-         that.data.pause++
-         that.$apply()
-
-         that.data.timestamp1 += that.data.timestamp
-
-         if(that.data.begain_timestamp!=0){
-          //表示开始一段时间后又暂停了，添加一个专注周期时间的提示
-            date=new Date(that.data.timestamp)
-            let h = date.getHours();
-             //由于时间戳之间的运算没有考虑时差，date.getHours()的值总提前8个小时
-             if(h>=8){h-=8}else{h+=16}
-
-             //如果有小时数则给与小时数的提示
-             if(h!=0){
-              let ti="专注 "+h+"小时 "+date.getMinutes()+"分 "+date.getSeconds()+"秒"
-              let front=that.data.pauseFront
-              front.push(ti)
-              that.pauseFront=front
-             }else{
-              let mt=date.getMinutes()
-              let st=date.getSeconds()
-              let ti=""
-              if(mt!=0 || st!=0){
-                ti="专注 "+mt+"分 "+st+"秒"
-              }else{
-                ti="开始了一秒不到..."
-              }
-              let front=that.data.pauseFront
-              front.push(ti)
-              that.pauseFront=front
-             }
-             that.$apply()
-          }
-
-         that.data.times=parseInt(that.data.hou*3600)+parseInt(that.data.min*60)+parseInt(that.data.sec)
-
-         //暂停时该次计时大于60秒才发送服务器保存一下上个阶段的记录，否则不发
-         if(that.data.times >= that.data.times1+60){
-          that.data.times1=that.data.times
-          that.sendMsg()
-         }
-
-         if(that.data.pause>5){
-          //暂停次数超过8次，停止计时
-          that.pauseFront="一点都不专注，停这么多次!"
-          that.msg="计时停止！"
-          that.$apply()
-          that.closeCountDown()
-         }
-        
-       }
-
-     });
+        wx.stopAccelerometer()
     }
 
     onShow(){
-      //生命周期函数--监听页面显示
-      if(this.$parent.globalData.roomIds==1){
-        //没加入房间
-        this.roomId=""
-        this.graph_top=100
-      }else{
-        //加入房间
-        this.roomId=this.$parent.globalData.roomId
-        this.graph_top=30
-      }
+        //生命周期函数--监听页面显示
+        if(this.$parent.globalData.roomIds==1){
+            //没加入房间
+            this.roomId=""
+            this.graph_top=100
+        }else{
+            //加入房间
+            this.roomId=this.$parent.globalData.roomId
+            this.graph_top=30
+        }
     }
 
     onUnload(){
-      //生命周期函数--监听页面卸载
+        //生命周期函数--监听页面卸载
 
-      //极端特殊的情况，如果在专注途中系统被强制退出。也需要向服务器发个信息
-      if(this.data.state){
-        this.suspend()
-        this.data.timeSituation=true
-        this.data.times=parseInt(this.data.hou*3600)+parseInt(this.data.min*60)+parseInt(this.data.sec)
-        this.closeCountDown();
-      }
+        //极端特殊的情况，如果在专注途中系统被强制退出。也需要向服务器发个信息
+        if(this.data.state){
+            this.suspend()
+            this.data.timeSituation=true
+            this.data.times=parseInt(this.data.hou*3600)+parseInt(this.data.min*60)+parseInt(this.data.sec)
+            this.closeCountDown();
+        }
 
     }
 
     toast(title,icon,duration){
-      //自己封装的Toast函数
-      wx.showToast({
-        title:title,
-        icon: icon,
-        duration:duration
-      })
+        //自己封装的Toast函数
+        wx.showToast({
+            title:title,
+            icon: icon,
+            duration:duration
+        })
     }
 
     log(res){
-      //自己封装的log函数
-      console.log("time:  "+res)
+        //自己封装的log函数
+        console.log("time:  "+res)
     }
 
 
     closeCountDown(){
-      //停止计时，刷新状态
+        //停止计时，刷新状态
 
-      wx.stopAccelerometer();
+        wx.stopAccelerometer();
 
-      console.log("stop")
+        console.log("stop")
 
-      this.data.pause--
-      if(this.data.pause<0)  this.data.pause=0
-      
-      //没开始的情况下按暂停，给个提醒，不干啥
-      if (this.data.min==0 && this.data.sec==0 && this.data.hou==0){
-        this.msg="老铁，都不开始下的吗_><_,扎心了！"
-        this.$apply()
-        return;
-      }else{
-        //在屏幕向下的情况下停止监听后，总是会自动的开始，干脆禁止在屏幕向下的情况下停止专注
-        /*if(this.data.state){
-          //考虑到总有用户喜欢在屏幕向下的时候按下“停止专注”键（意味着还未暂停），这里加一个暂停时的逻辑
-          this.suspend();
-           this.state=false
-           console.log("whenTimeingPaused---");
-           this.msg_text="停止专注了..."
-           this.$apply()
+        this.data.pause--
+        if(this.data.pause<0){ this.data.pause=0  }
 
-           this.data.timeSituation=true
-           this.sendMsg();
-           return 
-        }*/
-
-        //这里只考虑按下停止键时手机已经翻过来了，执行了res.z < 0 && that.data.state的代码，否则会出错
-        //针对用户按下停止键是必须先暂停时会发送两次一样的信息给后台，这里就只发一次，因为暂停时已经发送了一次
-        if(this.data.times1!=this.data.times){
-          this.data.timeSituation=true
-          this.sendMsg();
+        //没开始的情况下按暂停，给个提醒，不干啥
+        if (this.data.min==0 && this.data.sec==0 && this.data.hou==0){
+            this.msg="00:00:00"
+            this.msg_text="老铁，都不开始下吗？扎心了>_<"
+            this.$apply()
+            return;
         }else{
-          //由于没有发送消息了，自然也就没有清理上一次变量了，这里清理一下
-          that.data.begain=""
-          this.data.ends=""
-          this.data.times=0
-          this.data.times1=0
-          this.data.stop_timestamp=0;
-          this.data.timestamp=0;
-          this.data.timestamp1 = 0;
-          this.data.begain_timestamp=0;
-          this.data.sec=0;
-          this.data.min=0;
-          this.data.hou=0;
-          this.data.pause=0;
-          this.data.pauseMsg=""
-          this.data.timeId=0
-          this.data.timeSituation=false
-        }
+            //在屏幕向下的情况下停止监听后，总是会自动的开始，干脆禁止在屏幕向下的情况下停止专注
+            /*if(this.data.state){
+            //考虑到总有用户喜欢在屏幕向下的时候按下“停止专注”键（意味着还未暂停），这里加一个暂停时的逻辑
+            this.suspend();
+            this.state=false
+            console.log("whenTimeingPaused---");
+            this.msg_text="停止专注了..."
+            this.$apply()
 
-      }
+            this.data.timeSituation=true
+            this.sendMsg();
+            return 
+            }*/
 
-  }
-
-
-  sendMsg(){
-    //针对没获取到opneId的用户
-    if(this.$parent.globalData.openId==""){
-      this.modelShow="show"
-      return 
-    }
-
-    console.log("sendMsg")
-    let that=this
-    let app=this.$parent
-
-    let date = new Date()
-    this.data.ends = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
-
-    //console.log("app.globalData.roomId:"+app.globalData.roomId)
-    wx.request({
-      url: app.globalData.url + "time/endTime",
-      method: 'POST',
-      data: {
-        'openId': app.globalData.openId,
-        "dates": that.data.dates,
-        "begain": that.data.begain,
-        "ends": that.data.ends,
-        "pause": that.data.pause,
-        "times": that.data.times,
-        "pauseMsg":that.data.pauseMsg,
-        "roomId": app.globalData.roomIds,
-        "netWorkType": app.globalData.netWorkType,
-        "timeId": that.data.timeId
-      },
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      complete: function (res) {
-        if (res.statusCode != 200) {
-          that.log("网络传输有错误！");
-          that.toast("网络连接失败！","",1500)
-        } else if(res.data==""){
-          that.toast("服务器出错！","",700)
-        }else{
-          that.log("本次计时信息已经上传！---" + res.data.status);
-          that.data.timeId=res.data.timeId
-
-          if(that.data.timeSituation){
-            that.msg_text="信息已保存远端!"
-            that.$apply()
-           //that.toast("信息已保存远端","success",1000)
-          }
-        }
-
-        if(that.data.timeSituation){
-           //如果是结束时候的提交，就把数据初始化一下
-            //就是这里把this.data.dates清除后导致再次开始后后台收不到记录
-            //this.data.dates=""
-            //这个this.data.dates代表的是年月日，大概率不用清除
-            that.data.begain=""
-            that.data.ends=""
-            that.data.times=0
-            that.data.times1=0
-            that.data.stop_timestamp=0;
-            that.data.timestamp=0;
-            that.data.timestamp1 = 0;
-            that.data.begain_timestamp=0;
-            that.data.sec=0;
-            that.data.min=0;
-            that.data.hou=0;
-            that.data.pause=0;
-            that.data.pauseMsg=""
-            that.data.timeId=0
-            that.data.timeSituation=false
-          }
-      }
-    })
-  }
-
-  online(){
-    let app=this.$parent
-    let that=this
-    //前端每1分钟发一次，后台五分钟没收到online信号，即视为已不在线
-
-    //开始,若进入了房间，向后台报告我已上线
-    if (app.globalData.roomIds == 1) {
-      return;
-    } else {
-      console.log("online")
-      wx.request({
-        url: app.globalData.url + "time/online",
-        method: 'POST',
-        data: {
-          'openId': app.globalData.openId
-        },
-        header: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        complete: function (res) {
-          if (res.statusCode != 200) {
-            that.log("网络传输有错误！");
-          } else{
-            that.log("开始，向后台报告成功！");
-          }
-        }
-      });
-    }
-    
-  }
-
-  suspend(){
-    let app=this.$parent
-    let that=this
-    //if(app.globalData.flag==false){
-      //app.globalData.flag=true;
-
-      //暂停,若进入了房间，向后台报告我已下线
-      if (app.globalData.roomIds == 1) {
-        return;
-      } else {
-        console.log("suspend")
-        wx.request({
-          url: app.globalData.url + "time/suspend",
-          method: 'POST',
-          data: {
-            'openId': app.globalData.openId
-          },
-          header: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          complete: function (res) {
-            if (res.statusCode != 200) {
-              that.log("网络传输有错误！");
-            } else {
-              that.log("暂停，向后台报告成功！");
+            //这里只考虑按下停止键时手机已经翻过来了，执行了res.z < 0 && that.data.state的代码，否则会出错
+            //针对用户按下停止键是必须先暂停时会发送两次一样的信息给后台，这里就只发一次，因为暂停时已经发送了一次
+            if(this.data.times1!=this.data.times){
+                this.data.timeSituation=true
+                this.sendMsg();
+            }else{
+                //由于没有发送消息了，自然也就没有清理上一次变量了，这里清理一下
+                that.data.begain=""
+                this.data.ends=""
+                this.data.times=0
+                this.data.times1=0
+                this.data.stop_timestamp=0;
+                this.data.timestamp=0;
+                this.data.timestamp1 = 0;
+                this.data.begain_timestamp=0;
+                this.data.sec=0;
+                this.data.min=0;
+                this.data.hou=0;
+                this.data.pause=0;
+                this.data.pauseMsg=""
+                this.data.timeId=0
+                this.data.timeSituation=false
             }
-          }
-        });
 
-      }
-   // }
-  }
-    
-  }
+        }
+
+    }
+
+
+    sendMsg(){
+        //针对没获取到opneId的用户
+        if(this.$parent.globalData.openId==""){
+            this.modelShow="show"
+            return 
+        }
+
+        console.log("sendMsg")
+        let that=this
+        let app=this.$parent
+
+        let date = new Date()
+        this.data.ends = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+
+        //console.log("app.globalData.roomId:"+app.globalData.roomId)
+        wx.request({
+            url: app.globalData.url + "time/endTime",
+            method: 'POST',
+            data: {
+                'openId': app.globalData.openId,
+                "dates": that.data.dates,
+                "begain": that.data.begain,
+                "ends": that.data.ends,
+                "pause": that.data.pause,
+                "times": that.data.times,
+                "pauseMsg":that.data.pauseMsg,
+                "roomId": app.globalData.roomIds,
+                "netWorkType": app.globalData.netWorkType,
+                "timeId": that.data.timeId
+            },
+            header: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            complete: function (res) {
+                if (res.statusCode != 200) {
+                    that.log("网络传输有错误！");
+                    that.toast("网络连接失败！","",1500)
+                } else if(res.data==""){
+                    that.toast("服务器出错！","",700)
+                }else{
+                    that.log("本次计时信息已经上传！---" + res.data.status);
+                    that.data.timeId=res.data.timeId
+
+                    if(that.data.timeSituation){
+                        that.msg_text="信息已保存远端!"
+                        that.$apply()
+                        //that.toast("信息已保存远端","success",1000)
+                    }
+                }
+
+                if(that.data.timeSituation){
+                    //如果是结束时候的提交，就把数据初始化一下
+                    //就是这里把this.data.dates清除后导致再次开始后后台收不到记录
+                    //this.data.dates=""
+                    //这个this.data.dates代表的是年月日，大概率不用清除
+                    that.data.begain=""
+                    that.data.ends=""
+                    that.data.times=0
+                    that.data.times1=0
+                    that.data.stop_timestamp=0;
+                    that.data.timestamp=0;
+                    that.data.timestamp1 = 0;
+                    that.data.begain_timestamp=0;
+                    that.data.sec=0;
+                    that.data.min=0;
+                    that.data.hou=0;
+                    that.data.pause=0;
+                    that.data.pauseMsg=""
+                    that.data.timeId=0
+                    that.data.timeSituation=false
+                }
+            }
+        })
+    }
+
+    online(){
+        let app=this.$parent
+        let that=this
+        //前端每1分钟发一次，后台五分钟没收到online信号，即视为已不在线
+
+        //开始,若进入了房间，向后台报告我已上线
+        if (app.globalData.roomIds == 1) {
+            return;
+        } else {
+            console.log("online")
+            wx.request({
+                url: app.globalData.url + "time/online",
+                method: 'POST',
+                data: {
+                    'openId': app.globalData.openId
+                },
+                header: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                complete: function (res) {
+                    if (res.statusCode != 200) {
+                        that.log("网络传输有错误！");
+                    } else{
+                        that.log("开始，向后台报告成功！");
+                    }
+                }
+            });
+        }
+
+    }
+
+    suspend(){
+        let app=this.$parent
+        let that=this
+
+        //暂停,若进入了房间，向后台报告我已下线
+        if (app.globalData.roomIds == 1) {
+            return;
+        } else {
+            console.log("suspend")
+            wx.request({
+                url: app.globalData.url + "time/suspend",
+                method: 'POST',
+                data: {
+                    'openId': app.globalData.openId
+                },
+                header: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                complete: function (res) {
+                    if (res.statusCode != 200) {
+                        that.log("网络传输有错误！");
+                    } else {
+                        that.log("暂停，向后台报告成功！");
+                    }
+                }
+            });
+
+        }
+
+    }
+
+}
 </script>

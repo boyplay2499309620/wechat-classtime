@@ -144,21 +144,21 @@ page {
     <view class="person" style="flex:2;">
       <image src="./image/up.png" style="margin-top: 110rpx;"></image>
       <text style="margin-top:0;">2</text>
-      <image class="avatar" src="{{element[1]==undefined ? 'http://ppsgt1wc7.bkt.clouddn.com/v2-567dcc4ed3ea4977d541475390fc375a_r.jpg':element[1].avatarUrl}}"></image>
-      <text>{{element[1]==undefined ? '小白':element[1].name}}</text>
+      <image class="avatar" src="{{element[1]==undefined ? 'http://www.classtime.top/classtime/ranking/2.jpg':element[1].avatarUrl}}"></image>
+      <text>{{element[1]==undefined ? '榜眼':element[1].name}}</text>
     </view>
 
     <view class="person center" style="flex:3;">
       <image src="./image/champion.png"></image>
-      <image class="avatar" src="{{element[0]==undefined ? 'http://ppsgt1wc7.bkt.clouddn.com/p1003171602.jpg':element[0].avatarUrl}}"></image>
-      <text>{{element[0]==undefined ? 'Gal Gadot':element[0].name}}</text>
+      <image class="avatar" src="{{element[0]==undefined ? 'http://www.classtime.top/classtime/ranking/1.jpg':element[0].avatarUrl}}"></image>
+      <text>{{element[0]==undefined ? '状元':element[0].name}}</text>
     </view>
 
     <view class="person" style="flex:2;">
       <text style="margin-top:110rpx;">3</text>
       <image src="./image/down.png" style="margin-bottom:10rpx;"></image>
-      <image class="avatar" src="{{element[2]==undefined ? 'http://ppsgt1wc7.bkt.clouddn.com/PvhmOQI04Z.jpg':element[2].avatarUrl}}"></image>
-      <text>{{element[2]==undefined ? 'Groot':element[2].name}}</text>
+      <image class="avatar" src="{{element[2]==undefined ? 'http://www.classtime.top/classtime/ranking/3.jpg':element[2].avatarUrl}}"></image>
+      <text>{{element[2]==undefined ? '探花':element[2].name}}</text>
     </view>
 
   </view>
@@ -287,7 +287,7 @@ page {
     }
 
     onShow(){
-      this.getMsg()
+      wx.startPullDownRefresh()
     }
 
 
@@ -389,6 +389,7 @@ page {
       //console.log(str)
       this.data.elements=str
       //优先展示历史排行榜
+      this.button="history"
       this.element=str[2]
       this.$apply()
     }

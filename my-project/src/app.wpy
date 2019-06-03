@@ -42,6 +42,7 @@ export default class extends wepy.app {
   config = {
     pages: [
     'pages/index2',
+    'pages/time',
       'pages/index',
       'pages/identity',
       'pages/createRoom',
@@ -49,7 +50,6 @@ export default class extends wepy.app {
       'pages/myRecord',
       'pages/myRoomRecord',
       'pages/roomMsg',
-      'pages/time',
       'pages/test',
       'pages/record',
       'pages/ranking'
@@ -67,12 +67,6 @@ export default class extends wepy.app {
     "selectedColor": "#FBBD08",
     "backgroundColor": "#F1F1F1",
     "list":[
-      {
-       "pagePath":"pages/index2",
-       "iconPath":"./image/11.png",
-       "selectedIconPath":"./image/1.png",
-       "text":"主页"
-       },
       {
         "pagePath": "pages/time",
         "iconPath": "./image/22.png",
@@ -83,11 +77,17 @@ export default class extends wepy.app {
         "pagePath": "pages/ranking",
         "iconPath": "./image/33.png",
         "selectedIconPath":"./image/3.png",
-        "text": "匠心"
-      }
+        "text": "榜单"
+      },
+      {
+       "pagePath":"pages/index2",
+       "iconPath":"./image/11.png",
+       "selectedIconPath":"./image/1.png",
+       "text":"主页"
+       }
     ]
   },
- "usingComponents": {}
+ "usingComponents": {} 
 
   }
 
@@ -101,6 +101,7 @@ export default class extends wepy.app {
     schoolName:"",//绑定的姓名
     //url:"https://daliu.mynatapp.cc/classtime/",
     url:"https://www.classtime.top/classtime/classtime/",
+    //url:"http://storybar.qicp.vip:34127/classtime/",
     openId:"",
     netWorkType:"",
     flag:true,//这个标志位用来控制向后台发送的次数

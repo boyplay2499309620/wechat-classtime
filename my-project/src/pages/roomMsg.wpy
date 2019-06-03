@@ -311,14 +311,9 @@
                     online++;
                   }
                   
-                  let times=msg[i]
-                  if(times<60){
-                    msg[i].times=times + "秒"
-                  }else if(times<3600){
-                    msg[i]=times + "分钟"
-                  }else{
-                    msg[i]=times + "小时"
-                  }
+                  if(msg[i].times<60){ msg[i].times += "秒" }
+                  else if(msg[i].times<3600){ msg[i].times=Math.floor(msg[i].times/60) + "分钟" }
+                  else{ msg[i].times=Math.floor(msg[i].times/3600) + "小时" }
                   
                 }
 

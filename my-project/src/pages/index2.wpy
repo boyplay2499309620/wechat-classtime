@@ -49,6 +49,14 @@
   height: 100rpx;
 }
 
+.my_act{
+  margin-bottom: 15rpx;
+  padding-left: 30rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 
 </style>
 
@@ -69,8 +77,8 @@
 
   <!--system introduce begain-->
   <swiper class="screen-swiper square-dot sys-intro" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
-    <swiper-item wx:for="{{7}}" wx:key>
-      <image src="http://ppsgt1wc7.bkt.clouddn.com/{{index+1}}.jpg" mode='aspectFill'></image>
+    <swiper-item wx:for="{{5}}" wx:key>
+      <image src="http://www.classtime.top/classtime/index2/{{index+1}}.jpg" mode='aspectFill'></image>
     </swiper-item>
   </swiper>
   <!--system introduce end-->
@@ -123,14 +131,19 @@
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">
         <view class='content'>尊敬的用户您好</view>
-        <button class='action' @tap="cancelModel">
-          <text class='icon-close text-red'></text>
-        </button>
       </view>
 
       <view class='padding-xl'>
         <view style="margin-top:20rpx;">1、为了提供更好的服务，我们需要您的一些基本信息！这些信息包含您的微信昵称、头像、手机参数等。</view>
         <view style="margin-top:20rpx;">2、我们会妥善保管你这些信息，并不会泄露这些信息，请您放心！</view>
+        <view style="border:1rpx solid #EBEDEF;margin-top:10rpx;"></view>
+        <view style="margin-top:40rpx;">~~~微信昵称以及头像用于排行榜！</view>
+        <view style="margin-top:20rpx;">~~~机型信息供我们做界面的自定义适配！</view>
+      </view>
+
+       <view class="action my_act">
+        <button class="cu-btn line-green text-green" bindtap="cancelModel">取消</button>
+        <button class="cu-btn bg-green " style="margin-left: 400rpx;" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">确定</button>
       </view>
 
     </view>
@@ -162,7 +175,7 @@
      StatusBar:"",
      CustomBar:"",
      userInfo: {
-        nickName: '请稍等...',
+        nickName: '请稍等...', 
       },
      canIUse:true,
      flag1:0,//在addnickName()中控制setTimeOut的等待时间
@@ -191,7 +204,8 @@
           this.$parent.globalData.userInfo=e.detail.userInfo
           this.userInfo=e.detail.userInfo
           this.canIUse=true
-          this.getUserOpenid()
+          //this.getUserOpenid()
+          this.logins()
         }else{
           this.toast("您拒绝授权了！","none",1000)
         }
@@ -218,10 +232,17 @@
       //生命周期函数--监听页面加载
       this.StatusBar=this.$parent.globalData.StatusBar
       this.CustomBar=this.$parent.globalData.CustomBar
+      let openid=wx.getStorageSync("openId")
+      //console.log(openid)
+      if(openid==""){
+        this.getUserOpenid()
+      }else{
+        this.$parent.globalData.openId=openid
+        this.logins()
+      }
 
-      this.getUserOpenid()
-
-      //this.$navigate({url:"./ranking"})
+      //this.$navigate({url:"./time"})
+      wx.switchTab({url:"./time"})
     }
 
 
@@ -245,15 +266,22 @@
     }
     
     getUserOpenid() {
+      //本地没有openid的情况下
       var that = this;
-      wx.login({
-        success: function (res) {
-          console.log("your code is---"+res.code);
 
-          wx.request({
+      new Promise((resolve,refect)=>{
+        wx.login({
+          success: function (res) {
+            console.log("your code is---"+res.code);
+            resolve(res.code)
+          }
+        })
+      })
+      .then((code)=>{
+        wx.request({
             url: that.$parent.globalData.url +"user/getOpenId",
             method: 'GET',
-            data: { 'code': res.code },
+            data: { 'code': code },
             header: {
               "Content-Type": "application/x-www-form-urlencoded"
             },
@@ -271,8 +299,9 @@
 
                 that.$parent.globalData.openId = res.data.openId;
                 console.log("your openId is---"+that.$parent.globalData.openId);
+                wx.setStorageSync("openId",res.data.openId)
                 //console.log(res.data)
-                if(res.data.status=="no"){
+                if(!res.data.isbind){
                   //没绑定学号
                   that.$parent.globalData.isbind=false
                   //that.toast("未绑定学号或姓名!","none",1000);
@@ -296,9 +325,67 @@
             }
 
           })
-        }
       })
+
+
+      
      //this.$navigate({url:"./roomMsg?roomId=99"})
+    }
+
+    logins(){
+      //本地有openid了
+      if(this.$parent.globalData.openId==""){
+        this.getUserOpenid()
+      }
+
+      let self=this
+       wx.request({
+          url: self.$parent.globalData.url +"user/logins",
+          method: 'GET',
+          data: { 'openId': self.$parent.globalData.openId },
+          header: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          complete: function (res) {
+            if(res.statusCode != 200){
+              console.log("网络错误！")
+              self.toast("网络错误！","none",1500)
+              console.log(res)
+            }else if(res.data==""){
+              console.log("服务器错误！")
+              self.toast("服务器错误！","none",1500)
+              console.log(res)
+            }else{
+              console.log("logins函数返回成功！！！")
+              if(res.data.status=="no"){
+                //服务器没有这个用户信息
+                self.getUserOpenid()
+                return
+              }
+
+              if(!res.data.isbind){
+                //没绑定学号
+                self.$parent.globalData.isbind=false
+                //that.toast("未绑定学号或姓名!","none",1000);
+              }else{
+                self.$parent.globalData.isbind=true
+                self.$parent.globalData.schoolId=res.data.schoolId
+                self.$parent.globalData.schoolName=res.data.schoolName
+              }
+
+             self.updateUserMsg(res.data.userMsgComplete,res.data.avatarUrl,res.data.nickName)
+
+              //是否和常用设备不符合
+              let system=wx.getSystemInfoSync()
+              if(system.model!=res.data.model){
+                self.addModel()
+              }
+
+
+            }
+          }
+
+        })
     }
 
     updateUserMsg(userMsgComplete,avatarUrl,nickName){
@@ -324,13 +411,8 @@
                 }
               })
             }else{
-              //只弹出一次提示窗口
-              let authorityNum=wx.getStorageSync('authorityNum')
-              if(authorityNum != 1){
-               that.modelShow="show"
-               wx.setStorageSync('authorityNum', '1')
-              }
               that.canIUse=false
+              that.modelShow="show"
               that.$apply() 
               reject()
             }
