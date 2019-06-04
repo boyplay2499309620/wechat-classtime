@@ -178,8 +178,6 @@
         nickName: '请稍等...', 
       },
      canIUse:true,
-     flag1:0,//在addnickName()中控制setTimeOut的等待时间
-     flag: true,//控制this.getUserOpenid();函数只执行一次
      cardCur: 0,
      TabCur: 0,
       scrollLeft:0,
@@ -214,6 +212,10 @@
         this.modelShow=""
       },
       noPhone(){
+        if(!this.data.canIUse){
+          this.toast("Sorry,您没有授权,暂不可以使用无机课堂!","none",3000)
+          return;
+        }
         this.$navigate({url:"./index"})
       },
       myRecord(){
@@ -232,6 +234,8 @@
       //生命周期函数--监听页面加载
       this.StatusBar=this.$parent.globalData.StatusBar
       this.CustomBar=this.$parent.globalData.CustomBar
+      /**
+      登录逻辑移动至time界面
       let openid=wx.getStorageSync("openId")
       //console.log(openid)
       if(openid==""){
@@ -240,11 +244,19 @@
         this.$parent.globalData.openId=openid
         this.logins()
       }
-
+      */
+      this.userInfo=this.$parent.globalData.userInfo
+      this.canIUse=this.$parent.globalData.canIUse
+      //检测本地是否第一次使用，isFirst20190603是特殊的代码
+      if(!this.$parent.globalData.canIUse && wx.getStorageSync("isFirst20190603")==""){
+        //只弹出一次权限窗口
+        this.modelShow="show"
+        wx.setStorageSync("isFirst20190603","isFirst20190603")
+      }
       //this.$navigate({url:"./time"})
-      wx.switchTab({url:"./time"})
+      //setTimeout(()=>{wx.switchTab({url:"./time"})},500)
+      //wx.switchTab({url:"./time"})
     }
-
 
     onPullDownRefresh(){
       //页面相关事件处理函数--监听用户下拉动作
@@ -265,6 +277,8 @@
       })
     }
     
+
+    //以下四个函数处理登录事务，现在暂时停止主动使用，登录逻辑移动至time界面
     getUserOpenid() {
       //本地没有openid的情况下
       var that = this;
@@ -301,7 +315,8 @@
                 console.log("your openId is---"+that.$parent.globalData.openId);
                 wx.setStorageSync("openId",res.data.openId)
                 //console.log(res.data)
-                if(!res.data.isbind){
+                //res.data.isbind是个字符串型的变量，不是boolean
+                if(res.data.isbind=="false"){
                   //没绑定学号
                   that.$parent.globalData.isbind=false
                   //that.toast("未绑定学号或姓名!","none",1000);
@@ -336,6 +351,7 @@
       //本地有openid了
       if(this.$parent.globalData.openId==""){
         this.getUserOpenid()
+        return;
       }
 
       let self=this
@@ -362,8 +378,8 @@
                 self.getUserOpenid()
                 return
               }
-
-              if(!res.data.isbind){
+              //res.data.isbind是个字符串型的变量，不是boolean
+              if(res.data.isbind=="false"){
                 //没绑定学号
                 self.$parent.globalData.isbind=false
                 //that.toast("未绑定学号或姓名!","none",1000);
@@ -407,7 +423,7 @@
                   that.userInfo=res.userInfo
                   that.$parent.globalData.userInfo=res.userInfo
                   that.$apply() 
-                  resolve(res.userInfo)
+                  resolve(res.userInfo) 
                 }
               })
             }else{
@@ -421,7 +437,7 @@
 
       }).then(res=>{
         
-        if(!userMsgComplete || avatarUrl != res.avatarUrl || nickName != res.nickName){
+        if(userMsgComplete=="false" || avatarUrl != res.avatarUrl || nickName != res.nickName){
           //个人信息不完整或者信息发生变化
           wx.request({
             url: that.$parent.globalData.url +"user/updateUserMsg",

@@ -389,6 +389,7 @@
     }
 
     onShow(){
+      //console.log(this.data.isbind)
       this.isbind=this.$parent.globalData.isbind
       this.roomId=this.$parent.globalData.roomId
       //console.log(this.$parent.globalData.isbind)
