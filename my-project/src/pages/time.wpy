@@ -417,6 +417,15 @@ export default class time extends wepy.page {
             }
         });
 
+        let openid=wx.getStorageSync("openId")
+        //console.log(openid)
+        if(openid==""){
+            this.getUserOpenid()
+        }else{
+            this.$parent.globalData.openId=openid
+            this.logins()
+        }
+
         //控制提示图片切换
         this.data.interval1Id=setInterval(()=>{ 
             that.phone_image=(that.data.phone_image+1)%2
@@ -812,6 +821,224 @@ export default class time extends wepy.page {
 
         }
 
+    }
+
+    getUserOpenid() {
+        //本地没有openid的情况下
+        var that = this;
+
+        new Promise((resolve,refect)=>{
+            wx.login({
+                success: function (res) {
+                    console.log("your code is---"+res.code);
+                    resolve(res.code)
+                }
+            })
+        })
+        .then((code)=>{
+            wx.request({
+                url: that.$parent.globalData.url +"user/getOpenId",
+                method: 'GET',
+                data: { 'code': code },
+                header: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                complete: function (res) {
+                    if (res.statusCode != 200) {
+                        console.log("res.statusCode != 200");
+                        that.toast("服务器出错！","none",1000)
+                        return;
+                    } else if(res.data==""){
+                        that.toast("服务器出错！","none",1000)
+                    }else if(res.data.errcode!=0){
+                        //腾讯服务器返回不正常
+                        that.toast("服务器失联，请稍后重试！","none",1333)
+                    }else{
+
+                        that.$parent.globalData.openId = res.data.openId;
+                        console.log("your openId is---"+that.$parent.globalData.openId);
+                        wx.setStorageSync("openId",res.data.openId)
+                        //console.log(res.data)
+                        //res.data.isbind是个字符串型的变量，不是boolean
+                        if(res.data.isbind=="false"){
+                            //没绑定学号
+                            that.$parent.globalData.isbind=false
+                            //that.toast("未绑定学号或姓名!","none",1000);
+                        }else{
+                            that.$parent.globalData.isbind=true
+                            that.$parent.globalData.schoolId=res.data.schoolId
+                            that.$parent.globalData.schoolName=res.data.schoolName
+                        }
+
+                        that.updateUserMsg(res.data.userMsgComplete,res.data.avatarUrl,res.data.nickName)
+
+                        //是否和常用设备不符合
+                        let system=wx.getSystemInfoSync()
+                        if(system.model!=res.data.model){
+                            that.addModel()
+                        }
+
+                        //wx.navigateTo({url:"./index"})
+
+                    }
+                }
+
+            })
+        })
+        //this.$navigate({url:"./roomMsg?roomId=99"})
+    }
+
+    logins(){
+        //本地有openid了
+        if(this.$parent.globalData.openId==""){
+            //特殊情况，系统没有openid也进来了
+            this.getUserOpenid()
+            return;
+        }
+
+        let self=this
+        wx.request({
+            url: self.$parent.globalData.url +"user/logins",
+            method: 'GET',
+            data: { 'openId': self.$parent.globalData.openId },
+            header: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            complete: function (res) {
+                if(res.statusCode != 200){
+                    console.log("网络错误！")
+                    self.toast("网络错误！","none",1500)
+                    console.log(res)
+                }else if(res.data==""){
+                    console.log("服务器错误！")
+                    self.toast("服务器错误！","none",1500)
+                    console.log(res)
+                }else{
+                    console.log("logins函数返回成功！！！")
+                    if(res.data.status=="no"){
+                        //服务器没有这个用户信息
+                        self.getUserOpenid()
+                        return
+                    }
+                    //console.log(res)
+                    //res.data.isbind是个字符串型的变量，不是boolean
+                    if(res.data.isbind=="false"){
+                        //没绑定学号
+                        self.$parent.globalData.isbind=false
+                        //that.toast("未绑定学号或姓名!","none",1000);
+                    }else{
+                        self.$parent.globalData.isbind=true
+                        self.$parent.globalData.schoolId=res.data.schoolId
+                        self.$parent.globalData.schoolName=res.data.schoolName
+                    }
+
+                    self.updateUserMsg(res.data.userMsgComplete,res.data.avatarUrl,res.data.nickName)
+
+                    //是否和常用设备不符合
+                    let system=wx.getSystemInfoSync()
+                    if(system.model!=res.data.model){
+                        self.addModel()
+                    }
+
+
+                }
+            }
+
+        })
+    }
+
+    updateUserMsg(userMsgComplete,avatarUrl,nickName){
+        //保存昵称
+        //把addNickName和addModel分开发送，避免一个函数执行失败造成回滚，两个信息都无法保存
+        var that=this
+
+        new Promise(function(resolve,reject){
+            // 查看是否授权
+            wx.getSetting({
+                success(res) { 
+                    //console.log(res)
+                    if (res.authSetting['scope.userInfo']) {
+                        // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+                        wx.getUserInfo({
+                            success(res) {
+                                console.log("wx.getUserInfo返回如下信息")
+                                console.log(res)
+                                that.$parent.globalData.userInfo=res.userInfo
+                                resolve(res.userInfo)
+                            }
+                        })
+                    }else{
+                        that.$parent.globalData.canIUse=false 
+                        reject()
+                    }
+                }
+            })
+
+        })
+        .then(res=>{
+            let userInfo=that.$parent.globalData.userInfo
+            if(userMsgComplete=="false" || avatarUrl != res.avatarUrl || nickName != res.nickName){
+                //个人信息不完整或者信息发生变化
+                wx.request({
+                    url: that.$parent.globalData.url +"user/updateUserMsg",
+                    method: 'POST',
+                    data: { 'openId':  that.$parent.globalData.openId,
+                        "nickName":userInfo.nickName,
+                        "avatarUrl":userInfo.avatarUrl,
+                        "sex":userInfo.gender
+                    },
+                    header: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    complete: function (res) {
+                        if (res.statusCode != 200) {
+                            console.log("addNinckNmae res.statusCode != 200"+res);
+                            //that.toast("服务器出错！","none",3000)
+                            return;
+                        } else{
+                            console.log("updateUserMsg return successful!")
+                        }
+                    }
+                })
+
+            }
+
+        }).catch(res=>{
+            console.log("未授权！")
+        })
+
+    }
+
+    addModel(){
+        //把addNickName和addModel分开发送，避免一个函数执行失败造成回滚，两个信息都无法保存
+        var that=this
+        let system=wx.getSystemInfoSync()
+        console.log(system)
+        wx.request({
+            url: that.$parent.globalData.url +"user/addModel",
+            method: 'POST',
+            data: { 'openId':  that.$parent.globalData.openId,
+                "brands": system.brand,
+                "models": system.model,
+                "wechatLanguages" :system.language,
+                "wechatVersion": system.version,
+                "phoneSystem": system.system,
+                "wechatPlatform": system.platform,
+                "sdkVersion": system.SDKVersion
+            },
+            header: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            complete: function (res) {
+                if (res.statusCode != 200) {
+                    console.log("addModel res.statusCode != 200"+res);
+                    //that.toast("服务器出错！","none",3000)
+                    return;
+                } else{
+                    console.log("addModel return successful!")
+                }
+            }
+        })
     }
 
 }

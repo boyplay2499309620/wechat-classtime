@@ -41,8 +41,8 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
-    'pages/index2',
     'pages/time',
+    'pages/index2',
       'pages/index',
       'pages/identity',
       'pages/createRoom',
@@ -110,6 +110,7 @@ export default class extends wepy.app {
     flag:true,//用来控制time中online和suspend的发送
     imageNumber:7,//index2界面轮播展示的图片数
     version:1,//小程序版本，修改此值，可导致重新加载一些图片。每次要重新加载图片更新此图片即可。
+    canIUse:true,//用来在time和index2之间传递信息
   }
 
   constructor () {
